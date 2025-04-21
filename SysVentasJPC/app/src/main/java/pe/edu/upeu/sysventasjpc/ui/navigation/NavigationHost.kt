@@ -13,43 +13,78 @@ import pe.edu.upeu.sysventasjpc.ui.presentation.screens.Pantalla3
 import pe.edu.upeu.sysventasjpc.ui.presentation.screens.Pantalla4
 import pe.edu.upeu.sysventasjpc.ui.presentation.screens.Pantalla5
 import pe.edu.upeu.sysventasjpc.ui.presentation.screens.login.LoginScreen
+import pe.edu.upeu.sysventasjpc.ui.presentation.screens.producto.ProductoMain
+import pe.edu.upeu.sysventasjpc.ui.presentation.screens.producto.ProductoForm
 
 @Composable
 fun NavigationHost(
     navController: NavHostController,
     darkMode: MutableState<Boolean>,
-    modif:PaddingValues
+    modif: PaddingValues
 ) {
     NavHost(
-        navController = navController, startDestination =
-            Destinations.Login.route
+        navController = navController,
+        startDestination = Destinations.Login.route
     ) {
-
-        composable(Destinations.Login.route){ LoginScreen(navigateToHome = {
-                navController.navigate(Destinations.Pantalla1.route)})
+        composable(Destinations.Login.route) {
+            LoginScreen(navigateToHome = {
+                navController.navigate(Destinations.Pantalla1.route)
+            })
         }
 
         composable(Destinations.Pantalla1.route) {
-            Pantalla1(navegarPantalla2 = { newText ->navController.navigate(Destinations.Pantalla2.createRoute(newText)) }
-            )
+            Pantalla1(navegarPantalla2 = { newText ->
+                navController.navigate(Destinations.Pantalla2.createRoute(newText))
+            })
         }
-        composable( Destinations.Pantalla2.route, arguments =listOf(navArgument("newText") { defaultValue = "Pantalla 2"
+
+        composable(
+            Destinations.Pantalla2.route,
+            arguments = listOf(navArgument("newText") {
+                defaultValue = "Pantalla 2"
             })
         ) { navBackStackEntry ->
-            var newText=navBackStackEntry.arguments?.getString("newText")
+            val newText = navBackStackEntry.arguments?.getString("newText")
             requireNotNull(newText)
             Pantalla2(newText, darkMode)
         }
 
-
         composable(Destinations.Pantalla3.route) {
-            Pantalla3() }
+            Pantalla3()
+        }
+
         composable(Destinations.Pantalla4.route) {
-            Pantalla4() }
+            Pantalla4()
+        }
+
         composable(Destinations.Pantalla5.route) {
-            Pantalla5() }
+            Pantalla5()
+        }
 
+        // Agregado: ProductoMain
+        composable(Destinations.ProductoMainSC.route) {
+            ProductoMain(
+                navegarEditarAct = { newText ->
+                    navController.navigate(Destinations.ProductoFormSC.passId(newText))
+                },
+                navController = navController
+            )
+        }
 
+        // Agregado: ProductoForm
+        composable(
+            Destinations.ProductoFormSC.route,
+            arguments = listOf(navArgument("prodId") {
+                defaultValue = "prodId"
+            })
+        ) { navBackStackEntry ->
+            val prodId = navBackStackEntry.arguments?.getString("prodId")
+            requireNotNull(prodId)
+            ProductoForm(
+                text = prodId,
+                darkMode = darkMode,
+                navController = navController
+            )
+        }
     }
-
 }

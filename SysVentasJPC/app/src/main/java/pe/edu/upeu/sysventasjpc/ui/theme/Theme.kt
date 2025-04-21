@@ -33,7 +33,6 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
     */
 )
-
 public val LightPurpleColors = lightColorScheme(
     primary = purple_theme_light_primary,
     onPrimary = purple_theme_light_onPrimary,
@@ -221,19 +220,16 @@ public val DarkGreenColors = darkColorScheme(
     outlineVariant = green_theme_dark_outlineVariant,
     scrim = green_theme_dark_scrim,
 )
-enum class ThemeType{RED, PURPLE, GREEN}
-
-
+enum class ThemeType{RED, GREEN}
 @Composable
 fun SysVentasJPCTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
-    colorScheme:ColorScheme,
+    colorScheme: ColorScheme,
     content: @Composable () -> Unit
 ) {
-    /*
-    val colorScheme = when {
+  /*  val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
